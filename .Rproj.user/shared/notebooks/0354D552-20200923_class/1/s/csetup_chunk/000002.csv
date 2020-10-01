@@ -1,0 +1,7 @@
+"0",""
+"0","library(knitr)"
+"0",""
+"0","opts_chunk$set(echo = TRUE, message = F, warning = T, eval=T)"
+"0",""
+"0","# windows檔名不要有""-""號"
+"0",""

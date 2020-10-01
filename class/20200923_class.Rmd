@@ -1,0 +1,46 @@
+---
+title: "Untitled"
+author: "jacky wang"
+date: "2020/10/1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(knitr)
+
+opts_chunk$set(echo = TRUE, message = F, warning = T, eval=T)
+
+# windows檔名不要有"-"號
+
+```
+
+**技巧**
+```{r}
+
+# 在R project底下建立“hw”資料夾
+
+dir.create("./hw")
+
+path <- "/class"
+folderName <- "shit"
+fullPath <- file.path(path, folderName)    # 形成完整路徑
+
+dir.create(path = fullPath)
+
+```
+
+
+
+
+```{r package, include=FALSE}
+
+
+
+```
+
+
+
+
+
+# 
