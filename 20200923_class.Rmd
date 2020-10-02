@@ -68,7 +68,7 @@ methods(class = "data.frame")
 methods(class = "list")
 ```
 
-## practice
+## Ubike data
 
 瀏覽網頁
 ```{r}
@@ -77,16 +77,37 @@ browseURL("https://data.ntpc.gov.tw/datasets?keyword=%E6%96%B0%E5%8C%97%E5%B8%82
 
 網路爬蟲：
 1.  JSON是網路上最常見的資料形態
-2.  有CSV檔，先選CSV
 ```{r}
 
 library(jsonlite)
 
-fromJSON("https://data.ntpc.gov.tw/api/datasets/71CD1490-A2DF-4198-BEF1-318479775E8A/json")
+json_url <- "https://data.ntpc.gov.tw/api/datasets/71CD1490-A2DF-4198-BEF1-318479775E8A/json"
+
+fromJSON(json_url)
+# 因為list內每筆資料格式相同，fromJSON()將之自動轉成data frame
+
+list_Ubike_nTp <- fromJSON(
+  json_url, 
+  simplifyDataFrame = F
+)
 
 ```
 
+2.  有CSV檔，先選CSV
+```{r}
 
+csv_url <- "https://data.ntpc.gov.tw/api/datasets/71CD1490-A2DF-4198-BEF1-318479775E8A/csv"
+
+df_Ubike_nTp<- read_csv(csv_url)    # a connection to a file 
+
+```
+*可按右上方Import Dataset引入資料，再把程式碼貼過來。
+
+```{r}
+
+str(df_Ubike_nTp)
+
+```
 
 
 
