@@ -1,3 +1,0 @@
-"0","knitr::opts_chunk$set(echo = TRUE, eval=F)"
-"0","library(rmd2drake)    # by tpemartin"
-"0","library(drake)    # 流程控管套件"
