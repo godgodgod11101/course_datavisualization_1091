@@ -1,0 +1,8 @@
+"0",""
+"0","df_Ubike_nTp %>% "
+"0","  mutate("
+"0","    across("
+"0","      any_of(c(""sna"", ""tot"", ""shit"")),    # 如果選擇的變數名稱存在，針對它 "
+"0","      stringr::str_length"
+"0","    )"
+"0","  )"

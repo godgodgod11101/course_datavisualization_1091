@@ -1,0 +1,8 @@
+"0",""
+"0","df_Ubike_nTp %>% "
+"0","  summarise("
+"0","    across("
+"0","      where(is.numeric),    # T/F vector選變數"
+"0","      ~{.x^2}    # purrr-style lambda"
+"0","    )"
+"0","  )"

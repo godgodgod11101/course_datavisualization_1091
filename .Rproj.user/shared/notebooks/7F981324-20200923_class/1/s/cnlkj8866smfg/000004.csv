@@ -1,0 +1,7 @@
+"0","# 因為list內每筆資料格式相同，fromJSON()將之自動轉成data frame"
+"0",""
+"0","list_Ubike_nTp <- fromJSON("
+"0","  json_url, "
+"0","  simplifyDataFrame = F"
+"0",")"
+"0",""

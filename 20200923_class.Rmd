@@ -109,9 +109,117 @@ str(df_Ubike_nTp)
 
 ```
 
+```{r}
+
+df_Ubike_nTp %>% 
+  summarise(
+    na_sna = sum(is.na(sna)), 
+    na_sno = sum(is.na(sno))
+  )
+
+```
+
+## across
+
+_if() (_all()/_at()) have been superseded by the use of across()! 
+
+```{r}
+
+df_Ubike_nTp %>% 
+  mutate(
+    across(
+      everything(),    # 針對所有變數
+      stringr::str_length
+    )
+  )
+# is the same as
+# df_Ubike_nTp %>%
+#   mutate_all(
+#     .,
+#     stringr::str_length
+#   )
+
+```
+
+```{r}
+
+df_Ubike_nTp %>% 
+  mutate(
+    across(
+      "tot":"lng",    # 針對"變數M"到"變數N"的所有變數（含頭尾）
+      stringr::str_length
+    )
+  )
+# is the same as
+# df_Ubike_nTp %>%
+#   mutate_at(
+#     .,
+#     c("tot", "sbi", "sarea", "mday", "lat", "lng"),    # from variable "tot" to "lng"
+#     stringr::str_length
+#   )
+
+```
+
+```{r}
+
+df_Ubike_nTp %>% 
+  mutate(
+    across(
+      any_of(c("sna", "tot", "shit")),    # 如果選擇的變數名稱存在，針對它 
+      stringr::str_length
+    )
+  )
+
+# df_Ubike_nTp %>%
+#   mutate(
+#     across(
+#       all_of(c("sna", "tot", "shit")),    # 所有選擇的變數名稱必須存在，否則會error
+#       stringr::str_length
+#     )
+#   )
+
+```
+
+```{r}
+
+df_Ubike_nTp %>% 
+  summarise(
+    across(
+      where(is.numeric),    # T/F vector選變數
+      list(平 = mean, 中 = median)
+    )
+  )
+# is the same as
+# df_Ubike_nTp %>% 
+#   summarise_if(
+#     .predicate = is.numeric, 
+#     list(平 = mean, 中 = median)
+#   )
+
+```
+
+```{r}
+
+df_Ubike_nTp %>% 
+  summarise(
+    across(
+      where(is.numeric),    # T/F vector選變數
+      ~{.x^2}    # purrr-style lambda
+    )
+  )
 
 
+function(x) x^2    # anonymous function (Python: lambda function)
 
+df_Ubike_nTp %>% 
+  summarise(
+    across(
+      where(is.numeric),    # T/F vector選變數
+      function(x) x^2    # anonymous function
+    )
+  )
+
+```
 
 
 
