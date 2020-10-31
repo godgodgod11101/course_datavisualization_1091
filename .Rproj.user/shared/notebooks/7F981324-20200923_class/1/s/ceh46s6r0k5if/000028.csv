@@ -1,0 +1,14 @@
+"0",""
+"0","library(googlesheets4)"
+"0",""
+"0","read_sheet("
+"0","  ""https://docs.google.com/spreadsheets/d/1N3Qp2_4B9eqxGSSqvYHJrdzGYd1G0_k59jFn9AZE5vk/edit?usp=sharing"", "
+"0","  skip=3"
+"0",") -> basicSalary"
+"2","Reading from ""_w10910311502116071900521-q04011""
+"
+"2","Range ""4:5000000""
+"
+"2","New names:
+* `` -> ...1
+"

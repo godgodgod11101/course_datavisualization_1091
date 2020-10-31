@@ -1,0 +1,6 @@
+"0",""
+"0","df_Ubike_nTp %>% "
+"0","  summarise("
+"0","    na_sna = sum(is.na(sna)), "
+"0","    na_sno = sum(is.na(sno))"
+"0","  )"

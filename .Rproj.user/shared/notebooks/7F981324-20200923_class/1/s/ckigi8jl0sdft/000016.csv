@@ -1,6 +1,0 @@
-"0","# is the same as"
-"0","df_Ubike_nTp %>% "
-"0","  summarise_if("
-"0","    .predicate = is.numeric, "
-"0","    list(平 = mean, 中 = median)"
-"0","  )"
