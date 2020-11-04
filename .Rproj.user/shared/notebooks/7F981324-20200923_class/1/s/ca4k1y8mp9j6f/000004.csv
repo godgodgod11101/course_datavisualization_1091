@@ -1,8 +1,0 @@
-"0","# same as"
-"0","# df_Ubike_nTp %>% "
-"0","#   mutate_at("
-"0","#     ., "
-"0","#     c(""tot"", ""sbi"", ""sarea"", ""mday"", ""lat"", ""lng""),    # from variable ""tot"" to ""lng"""
-"0","#     stringr::str_length"
-"0","#   )"
-"0",""

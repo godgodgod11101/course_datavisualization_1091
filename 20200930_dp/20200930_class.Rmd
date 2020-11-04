@@ -1,0 +1,81 @@
+---
+title: "20200930 class"
+author: "jacky wang"
+date: "2020/11/3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(knitr)
+
+opts_chunk$set(echo = TRUE, message = F, warning = T, eval=T)
+
+# windows檔名不要有"-"號
+
+```
+
+```{r package, include=FALSE}
+
+```
+
+
+
+**小技巧**
+
+1. .Rprofile讓每次打開project時，可以預先執行某些程式（例：放入每次都要用的library(...)）。
+2. file.path()：建立路徑或網址（加反斜線）
+
+
+
+
+
+# Process of Data Visualization
+
+# Drake: program planning
+
+```{r}
+
+a <- 3
+cc <- 15
+examplePlan <- drake::drake_plan(
+  target1 = {
+    a + 5 -> b
+    cc <- 0
+    if (b < 10) b 
+  },
+  target2 = {
+    cc 
+  },
+  target3 = {
+    target1 + a
+  }
+)
+
+```
+
+```{r}
+
+make(examplePlan)    # 生成的東西被放在暫存環境（.drake）內
+
+```
+
+```{r}
+
+readd(target1)    # 顯示
+loadd(target1)    # 存在global env.
+
+```
+
+```{r}
+
+vis_drake_graph(examplePlan)
+
+```
+由圖可發現drake還可以跑多工！
+
+
+
+
+
+
