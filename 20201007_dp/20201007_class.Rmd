@@ -1,0 +1,146 @@
+---
+title: "20201007 class"
+author: "jacky wang"
+date: "2020/11/3"
+output: html_document
+---
+
+
+
+
+
+**注意**
+
+1. windows檔名不要有"-"號
+
+
+
+
+
+```{r setup, include=FALSE}
+
+library(knitr)
+
+opts_chunk$set(echo = TRUE, message = F, warning = T, eval=T)
+
+
+library(rmd2drake)
+library(drake)
+
+```
+
+```{r makecondition}
+
+library(readr)
+library(dplyr)
+library(xml2)
+library(purrr)
+
+```
+
+
+
+
+
+# 臺灣政府資料開放平台
+
+```{r}
+# browseURL("https://data.gov.tw/")
+```
+
+# XML Data
+
+```{r}
+
+read_xml("https://www.dgbas.gov.tw/public/data/open/Stat/price/PR0101A1M.xml") -> twcpi
+xml2::as_list(twcpi) -> twcpi
+
+```
+
+```{r}
+str(twcpi, max.level = 1)
+```
+
+```{r}
+
+# twcpi$DataSet$Obs    # DataSet裡的list名稱都一樣
+twcpi$DataSet[[1]]
+
+```
+
+## 取出歷年CPI年增率資料（基期民國105年）
+
+```{r}
+
+# a <- require(purrr)
+# a <- library(purrr)
+
+# both load the package, but require() return the value TRUE/FALSE
+
+```
+
+god方法
+```{r}
+
+pick_105cpi1 <- map_lgl(
+  seq_along(twcpi$DataSet), 
+  ~{
+    (twcpi$DataSet[[.x]]$Item == "總指數(民國105年=100)") & 
+      (twcpi$DataSet[[.x]]$TYPE == "年增率(%)")
+  }
+)
+
+head(pick_105cpi1, 20)
+
+```
+
+老師方法
+```{r}
+
+map(
+  twcpi$DataSet, 
+  ~{
+    (.x$Item == "總指數(民國105年=100)") & 
+      (.x$TYPE == "年增率(%)")
+  }
+) %>% 
+  unlist() ->    # change list to vector
+  pick_105cpi2
+
+head(pick_105cpi2, 20)
+
+```
+
+```{r}
+
+growthCPI <- twcpi$DataSet[pick_105cpi1]
+
+map_dfr(    # return a data frame created by row-binding
+  seq_along(growthCPI), 
+  ~{
+    data.frame(
+      項目 = growthCPI[[.x]]$Item[[1]], 
+      年月 = growthCPI[[.x]]$TIME_PERIOD[[1]], 
+      年增率 = growthCPI[[.x]]$Item_VALUE[[1]]
+    )
+  }
+)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
