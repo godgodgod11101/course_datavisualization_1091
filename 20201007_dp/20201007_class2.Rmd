@@ -1,0 +1,150 @@
+---
+title: "20201007 class2"
+drake_cache: "class2_1007_cache"
+---
+
+
+
+
+
+**注意**
+1. windows檔名不要有"-"號
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=F)
+library(rmd2drake)
+library(drake)
+
+# If you use git and does not want to track cache folder, put down the following command:
+set_gitignore("class2_1007_cache")
+```
+
+```{r makecondition}
+library(readr)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(ggplot2)
+library(svglite)
+```
+
+
+
+# Graphing Basics
+
+# Essential Elements
+
+## data
+
+```{r dataImport_twcpi, drake = F}
+# make drake plan時不要再跑這個chunk
+
+dataImport_twcpi = {
+  library(xml2)
+  
+  read_xml("https://www.dgbas.gov.tw/public/data/open/Stat/price/PR0101A1M.xml") %>% 
+    as_list()
+}
+
+```
+
+```{r dataExtract}
+
+dataExtract = {
+  library(purrr)
+  
+  map(
+    dataImport_twcpi$DataSet, 
+    ~{
+      (.x$Item == "總指數(民國105年=100)") & 
+        (.x$TYPE == "年增率(%)")
+    }
+  ) %>% 
+    unlist() ->    # change list to vector
+    pick_105cpi
+  
+  head(pick_105cpi, 20)
+  
+  growthCPI <- dataImport_twcpi$DataSet[pick_105cpi]
+  
+  map_dfr(    # return a data frame created by row-binding
+    seq_along(growthCPI), 
+    ~{
+      data.frame(
+        項目 = growthCPI[[.x]]$Item[[1]], 
+        年月 = growthCPI[[.x]]$TIME_PERIOD[[1]], 
+        年增率 = growthCPI[[.x]]$Item_VALUE[[1]]
+      )
+    }
+  )
+}
+
+```
+
+```{r}
+rm(growthCPI, pick_105cpi)
+```
+
+```{r dataProcessing}
+
+dataProcessing = {
+  dataExtract %>% 
+    mutate(
+      年月日 = 年月 %>% 
+        str_replace("M", "-") %>% 
+        paste0("-01") %>% 
+        lubridate::ymd(), 
+      年增率百分比 = as.numeric(年增率)
+    )
+}
+
+```
+
+## graph
+
+```{r baseCanvas}
+
+baseCanvas = {
+  dataProcessing %>% 
+    ggplot()
+}
+
+# 不要放多餘的東西在{}外
+
+```
+
+```{r geom1_line}
+
+geom1_line = {
+  baseCanvas + 
+    geom_line(
+      mapping = aes(
+        x = 年月日, 
+        y = 年增率百分比
+      )
+    )
+}
+
+```
+
+
+
+**說明**
+
+1.  若要改圖：
+      1. 鼠標放原圖dp code chunk上 -> Addins -> loadd target at cursor。
+      2. 將原圖dp code chunk加上「drake = F」。
+      3. 新增一個與原圖dp code chunk名稱相同之dp code chunk，在此修改內容。
+
+2.  mk_plan_XXX()：重新make一次drake plan
+    vis_plan_testDrake()：產生dependency graph
+
+
+
+**hw**
+
+畫圖，練習boxy svg，練習dp
+
+
