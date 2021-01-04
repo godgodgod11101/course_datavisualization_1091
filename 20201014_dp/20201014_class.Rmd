@@ -1,0 +1,117 @@
+---
+title: "plan_taiwanBusinessCycles"
+drake_cache: "1014_cache"
+---
+
+**注意**
+1. windows檔名不要有"-"號
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=F)
+library(rmd2drake)
+library(drake)
+
+# If you use git and does not want to track cache folder, put down the following command:
+set_gitignore("class2_1007_cache")
+```
+
+```{r makecondition}
+library(readr)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(ggplot2)
+library(svglite)
+```
+
+
+
+
+
+# data
+
+```{r downloaddata}
+downloaddata = {
+  
+}
+```
+
+
+```{r}
+
+library(WDI)
+
+imp_search <- WDIsearch(string = "Imports of goods and services")
+imp_search
+imp_search[12, 1]
+
+
+```
+
+```{r}
+
+system.time(
+  WDI(
+    country = c("US", "CA", "MX"), 
+    indicator = imp_search[12, 1]
+  )
+)    # 抓取資料時間過長
+
+```
+
+# SOAR
+
+可將物件儲存至.R_Cache，以節省讀取資料時間
+
+```{r}
+
+library(SOAR)
+
+obj1 <- 5
+Store(obj1)    # store object in .R_Cache
+
+```
+
+```{r}
+
+detach(".R_Cache")
+
+Attach()    # attach .R_Cache in Global Environment
+obj1    # 若之前已將資料儲存在.R_Cache，Attach()後可直接叫出物件
+
+Remove(obj1)    # remove object in .R_Cache
+
+```
+
+# pipe function寫法
+
+```{r}
+
+# # 格式
+# `%...%` <- function(){
+#   
+# }
+
+```
+
+```{r}
+
+# remotes::install_github("tpemartin/econDV", force = T)
+
+# %=%用法可參考今天影片
+
+```
+
+# rmd2drake
+
+使用drake套件，若不更改default，每次make()後的cache資料夾名稱都一樣，如此會造成多個不同的drake plan相衝突（當物件名稱相同時）；而更改default，每次使用drake套件的函數又要加上path，十分麻煩。
+使用rmd2drake套件可以解決以上困擾。
+
+```{r}
+# remotes::install_github("tpemartin/rmd2drake", force = T)
+# 如果無法安裝，Restart R
+```
+
+
+
+

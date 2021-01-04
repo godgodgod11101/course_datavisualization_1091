@@ -31,10 +31,10 @@ examplePlan <- drake::drake_plan(
 #   examplePlan,
 #   cache = new_cache(cacheDir)
 # )
-# 
+
 # # 查看dp流程圖
 # vis_drake_graph(examplePlan, cache = drake_cache(cacheDir))
-# 
+
 # # load dp物件（與load target at cursor相同）
 # loadd(target1, path = cacheDir)
 
@@ -49,7 +49,7 @@ examplePlan <- drake::drake_plan(
 #   examplePlan,
 #   cache = new_cache(cacheDir)
 # )
-# 
+
 # # 重make某個target
 # clean(target1, path = cacheDir)
 # 
