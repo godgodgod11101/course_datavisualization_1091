@@ -147,7 +147,7 @@ df_Ubike_nTp %>%
 
 ```
 mutate()為vectorized function（vector進vector出）。
-mean()、median()為summar function（vector進value出），配合summarise()使用。
+mean()、median()為summary function（vector進value出），配合summarise()使用。
 
 ```{r}
 
